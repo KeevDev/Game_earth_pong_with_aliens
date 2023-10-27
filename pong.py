@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 #def new_func(Ventana):
     
     
@@ -14,11 +15,10 @@ pygame.font.init()
 #LETRA
 TipoLetra = pygame.font.SysFont('System', 60)
 #SONIDO
-Sonidoraqueta = pygame.mixer.Sound("clipload2.wav")
-SonidoPunto = pygame.mixer.Sound("gol.wav")
-SonidoRebote = pygame.mixer.Sound("clipload2.wav")
-#fondoSound = pygame.mixer.Sound("space.ogg")
-#fondoSound.set_volume(0.1)
+Sonidoraqueta = pygame.mixer.Sound("Sounds/clipload2.wav")
+SonidoPunto = pygame.mixer.Sound("Sounds/gol.wav")
+SonidoRebote = pygame.mixer.Sound("Sounds/clipload2.wav")
+
 #VENTANA
 Tamano = (800, 600)
 PlayerAncho = 15
@@ -40,6 +40,7 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
         self.puntos_player = 0
+        self.score = 0
     def movimiento(self):
         self.y += self.speed_y
         self.x += self.speed_x
@@ -88,6 +89,13 @@ bola = Ball()
 game_over = False
 contador_bloqueo = 0
 
+spawn_power_up_event = pygame.USEREVENT + 1
+pygame.time.set_timer(spawn_power_up_event, 5000)  # 2000 milisegundos = 2 segundos
+
+power_up = pygame.Rect(0, 0, 20, 20)
+power_up_active = False
+# Lista para almacenar las coordenadas de los puntos
+
 
 while not game_over:
     tiempo = pygame.time.get_ticks()//1000
@@ -95,7 +103,10 @@ while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
-        
+        if event.type == spawn_power_up_event:
+            power_up.x = random.randint(0, 800 - power_up.width)
+            power_up.y = random.randint(0, 600 - power_up.height)
+            power_up_active = True
         if event.type == pygame.KEYDOWN:
             # ----Jugador 1----
             if event.key == pygame.K_w:
@@ -164,6 +175,11 @@ while not game_over:
         player2.puntos_player += 1
     #--------------------------------------------------
 
+
+
+
+
+
     #----powerUP----
     #jugador1
     mostrar_bloqueo1 = None
@@ -188,17 +204,6 @@ while not game_over:
             mostrar_bloqueo2 = None
             contador_bloqueo = 1
 
-
-
-
-
-
-
-
-
-
-
-        
     #----------------------------------------------
 
 
@@ -243,12 +248,12 @@ while not game_over:
     
   
     #----GRAFICAR--------
-    fondo = pygame.image.load("fondo.jpg")
+    fondo = pygame.image.load("images/fondo.jpg")
     fondo = pygame.transform.scale(fondo,(800,600))
     Ventana.blit(fondo, (0,0))
 
-    imagen_jugador1 = pygame.image.load("jugador1.png")
-    imagen_jugador2 = pygame.image.load("jugador2.png")
+    imagen_jugador1 = pygame.image.load("images/jugador1.png")
+    imagen_jugador2 = pygame.image.load("images/jugador2.png")
     imagen_jugador1 = pygame.transform.scale(imagen_jugador1, (90, 110))
     imagen_jugador2 = pygame.transform.scale(imagen_jugador2, (90, 110))
 
@@ -260,7 +265,7 @@ while not game_over:
     Ventana.blit(imagen_jugador1, (player1.x, player1.y))
     Ventana.blit(imagen_jugador2, (player2.x, player2.y))
 
-    imagen_pelota = pygame.image.load("ball.png")
+    imagen_pelota = pygame.image.load("images/ball.png")
     imagen_pelota = pygame.transform.scale(imagen_pelota, (60, 60))
     pelota = imagen_pelota.get_rect()
     pelota.topleft = (bola.x,bola.y)
@@ -273,6 +278,25 @@ while not game_over:
     LineaDer = pygame.draw.rect(Ventana, Blanco, (796, 0, 4, 600))
     LineaSup = pygame.draw.rect(Ventana, (255, 255, 255), (0, 0, 800, 4))
     LineaInf = pygame.draw.rect(Ventana, (255, 255, 255), (0, 596, 800, 4))
+
+
+    
+    if power_up_active and jugador1.colliderect(power_up):
+        player1.score += 1
+        if player1.score > 3 and player1.score <= 5 :
+            lado(player1,8)
+        power_up_active = False  
+
+    if power_up_active and jugador2.colliderect(power_up):
+        player2.score += 1
+        if player2.score > 3 and player2.score <= 5 :
+            lado(player2,8)
+        power_up_active = False  
+
+    if power_up_active:
+        pygame.draw.ellipse(Ventana, Blanco, power_up)
+    
+
 
     #------------------------------------------------------------------------------------------------------
     #----PUNTAJE------
