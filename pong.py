@@ -3,7 +3,7 @@ import time
 import random
 #def new_func(Ventana):
 
-#Kevin serna y felipe gutierrez
+#Kevin serna  
 '''
 Inicialización: El código comienza importando los módulos necesarios e inicializando Pygame, el mezclador para el sonido y la fuente para la representación del texto. Los archivos de sonido también se cargan en esta etapa. La pantalla de Pygame se configura con dimensiones específicas, y se inicializa un reloj para controlar los fotogramas por segundo. 
 
@@ -191,7 +191,6 @@ while not game_over:
     #jugador1
     mostrar_bloqueo1 = None
     mostrar_bloqueo2 = None
-    
     if player1.puntos_player == 2 and player2.puntos_player == 0 and contador_bloqueo == 0:
         if bola.x <= 398 and contador_bloqueo == 0:
             player2.speed_x = 0
@@ -222,10 +221,10 @@ while not game_over:
         n = 7
         lado(bola,n)
     if tiempo == 35:
-        n = 9
+        n = 8
         lado(bola,n)
     if tiempo == 50:
-        n = 10
+        n = 8
         lado(bola,n)
     if tiempo == 60:
         n = 11
