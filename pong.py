@@ -2,9 +2,17 @@ import pygame
 import time
 import random
 #def new_func(Ventana):
-    
-    
 
+#Kevin serna y felipe gutierrez
+'''
+Inicialización: El código comienza importando los módulos necesarios e inicializando Pygame, el mezclador para el sonido y la fuente para la representación del texto. Los archivos de sonido también se cargan en esta etapa. La pantalla de Pygame se configura con dimensiones específicas, y se inicializa un reloj para controlar los fotogramas por segundo. 
+
+Clases: Se definen tres clases: Jugador, Pelota y Menú. La clase Jugador tiene atributos de posición, velocidad y puntuación, y un método de movimiento. La clase Pelota tiene atributos para posición y velocidad, y un método de movimiento. La clase Menú está actualmente vacía. 
+
+Configuración del juego: Se crean los objetos Jugador y Pelota. Se establece un booleano game_over a False para controlar el bucle principal del juego. Se crea un evento Pygame para la generación de power-ups y se configura para que se active cada 5 segundos. 
+
+Bucle principal del juego: El bucle de juego comienza con el manejo de eventos para salir del juego y controlar a los jugadores con entradas de teclado. Si se dispara el evento personalizado de power-ups, se genera un nuevo power-up en una ubicación aleatoria.
+'''
 #----INICIALIZANDO-----
 pygame.init()
 pygame.mixer.init()
@@ -103,10 +111,6 @@ while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
-        if event.type == spawn_power_up_event:
-            power_up.x = random.randint(0, 800 - power_up.width)
-            power_up.y = random.randint(0, 600 - power_up.height)
-            power_up_active = True
         if event.type == pygame.KEYDOWN:
             # ----Jugador 1----
             if event.key == pygame.K_w:
@@ -146,7 +150,10 @@ while not game_over:
                 player2.speed_x = 0
             if event.key == pygame.K_RIGHT:
                 player2.speed_x = 0
-
+        if event.type == spawn_power_up_event:
+            power_up.x = random.randint(0, 800 - power_up.width)
+            power_up.y = random.randint(0, 600 - power_up.height)
+            power_up_active = True
     #-----COLISIONES CON PAREDES------
     if bola.y > 590 or bola.y < 10:
         bola.speed_y *= -1
@@ -212,22 +219,22 @@ while not game_over:
         n = 4
         lado(bola,n)
     if tiempo == 20:
-        n = 5
-        lado(bola,n)
-    if tiempo == 35:
-        n = 5
-        lado(bola,n)
-    if tiempo == 50:
-        n = 6
-        lado(bola,n)
-    if tiempo == 60:
         n = 7
         lado(bola,n)
+    if tiempo == 35:
+        n = 9
+        lado(bola,n)
+    if tiempo == 50:
+        n = 10
+        lado(bola,n)
+    if tiempo == 60:
+        n = 11
+        lado(bola,n)
     if tiempo == 70:
-        n = 8
+        n = 12
         lado(bola,n)
     if tiempo == 80:
-        n = 9
+        n = 13
         lado(bola,n)
     #-----------------------
     
